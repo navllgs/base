@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('api')->namespace('Api')->group(function(){
+    Route::namespace('Wish')->prefix('wish')->group(function(){
+        Route::post('create','WishController@createWish');
+        
+        Route::get('all/items','WishController@getWishlist');
+    });
+});
