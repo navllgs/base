@@ -1882,22 +1882,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      title: '',
+      link: '',
+      description: ''
+    };
+  },
   mounted: function mounted() {
     console.log('Component mounted.');
-    this.getAllWish().then(function (res) {
-      console.log('res', res);
-    }, function (err) {
-      console.log('err', err);
-    });
+    this.getAllWish();
     this.setCurrentUser({
       'name': 'Sample User',
       'email': 'sample@gmail.com'
     });
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('currentUser', ["getCurrentUser"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])('currentUser', ['setCurrentUser']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('wishlist', ['getAllWish']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('currentUser', ["getCurrentUser"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('wishlist', ["allWish"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])('currentUser', ['setCurrentUser']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('wishlist', ['getAllWish', 'createWish']), {
+    wishCreate: function wishCreate() {
+      var _this = this;
+
+      this.createWish({
+        'title': this.title,
+        'link': this.link,
+        'description': this.description
+      }).then(function (res) {
+        alert('created');
+
+        _this.getAllWish();
+
+        _this.resetData();
+      }, function (err) {
+        alert('error');
+      });
+    },
+    resetData: function resetData() {
+      this.title = '', this.link = '', this.description = '';
+    }
+  })
 });
 
 /***/ }),
@@ -38427,27 +38465,112 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Example Component")
-          ]),
-          _vm._v(" "),
-          _vm.getCurrentUser
-            ? _c("div", [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.getCurrentUser.name) +
-                    "\n                "
+  return _c(
+    "div",
+    { staticClass: "container", staticStyle: { padding: "8px" } },
+    [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.title,
+                    expression: "title"
+                  }
+                ],
+                attrs: { placeholder: "title" },
+                domProps: { value: _vm.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.title = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.link,
+                    expression: "link"
+                  }
+                ],
+                attrs: { placeholder: "link" },
+                domProps: { value: _vm.link },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.link = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.description,
+                    expression: "description"
+                  }
+                ],
+                attrs: { placeholder: "description" },
+                domProps: { value: _vm.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.description = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("button", { on: { click: _vm.wishCreate } }, [_vm._v("Create")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("Example Wish Component")
+            ]),
+            _vm._v(" "),
+            _vm.allWish && _vm.allWish.data
+              ? _c(
+                  "div",
+                  _vm._l(_vm.allWish.data, function(wish) {
+                    return _c("div", { key: wish.id }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(wish.title) +
+                          "--\n                        " +
+                          _vm._s(wish.link) +
+                          "--\n                        " +
+                          _vm._s(wish.description) +
+                          "\n                    "
+                      )
+                    ])
+                  }),
+                  0
                 )
-              ])
-            : _vm._e()
+              : _vm._e()
+          ])
         ])
       ])
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -54844,7 +54967,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endpoints", function() { return endpoints; });
 // let base = process.env.VUE_APP_API
-var base = "http://127.0.0.1/";
+var base = "http://127.0.0.1:8000/";
 var endpoints = Object.freeze({
   base: base,
   wish: base + 'wish'
@@ -55128,9 +55251,21 @@ __webpack_require__.r(__webpack_exports__);
           rootState = _ref.rootState;
       return new Promise(function (resolve, reject) {
         console.log(_js_endpoints__WEBPACK_IMPORTED_MODULE_2__["endpoints"]);
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('http://127.0.0.1/wish/all/items').then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(_js_endpoints__WEBPACK_IMPORTED_MODULE_2__["endpoints"].wish + '/all/items').then(function (res) {
           commit('setWishlists', res.data);
           resolve(res.data);
+        }, function (err) {
+          reject(err);
+        });
+      });
+    },
+    createWish: function createWish(_ref2, params) {
+      var state = _ref2.state,
+          commit = _ref2.commit,
+          dispacth = _ref2.dispacth;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(_js_endpoints__WEBPACK_IMPORTED_MODULE_2__["endpoints"].wish + '/create', params).then(function (res) {
+          resolve(res);
         }, function (err) {
           reject(err);
         });
@@ -55148,8 +55283,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\nav-work\niru\new-practice\wishlist\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\nav-work\niru\new-practice\wishlist\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\work\niru-practice\twitter-laravel-api\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\work\niru-practice\twitter-laravel-api\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

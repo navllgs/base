@@ -23,12 +23,24 @@ export default {
       return new Promise((resolve,reject)=>{
         console.log(endpoints);
         
-        Axios.get('http://127.0.0.1/wish/all/items').then(
+        Axios.get(endpoints.wish + '/all/items').then(
           res => {
             commit('setWishlists', res.data)
             resolve(res.data)
           },
           err =>{
+            reject(err)
+          }
+        )
+      })
+    },
+    createWish({state,commit,dispacth},params){
+      return new Promise((resolve,reject)=>{
+        Axios.post(endpoints.wish + '/create',params).then(
+          res=>{
+            resolve(res)
+          },
+          err=>{
             reject(err)
           }
         )

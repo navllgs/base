@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class WishController extends Controller
 {
-    public function createWish(Request $request){
+    public function createWish(){
         $wishlist = new Wish();
         $wish = $wishlist->create(request()->all());
 
