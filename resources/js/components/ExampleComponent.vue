@@ -3,23 +3,19 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div>
-                        <input v-model="title" placeholder="title"/>
+                    <div style="width:50%">
+                        <Input style="margin-bottom:8px" v-model="title" placeholder="title"/>
+                        <Input style="margin-bottom:8px" v-model="link" placeholder="link"/>
+                        <Input style="margin-bottom:8px" v-model="description" placeholder="description"/>
                     </div>
-                    <div>
-                        <input v-model="link" placeholder="link"/>
-                    </div>
-                    <div>
-                        <input v-model="description" placeholder="description"/>
-                    </div>
-                    <button @click="wishCreate">Create</button>
-                    <div class="card-header">Example Wish Component</div>
-                    <div v-if="allWish && allWish.data">
-                        <div v-for="wish in allWish.data" :key="wish.id" >
+                    <Button @click="wishCreate">Create</Button>
+                    <h3 style="text-align:center" class="card-header">Example Wish list Component</h3>
+                    <div style="width:80%;margin:0px auto" v-if="allWish && allWish.data">
+                        <Card v-for="wish in allWish.data" :key="wish.id" :shadow='false' :bordered="true">
                             {{wish.title}}--
                             {{wish.link}}--
                             {{wish.description}}
-                        </div>
+                        </Card>
                     </div>
                 </div>
             </div>
